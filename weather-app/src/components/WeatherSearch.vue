@@ -44,6 +44,7 @@
       </b-col>
 
       <b-col lg="8">
+        <!-- Displays the search history in a responsive table -->
         <div>
           <b-table
             :items="items"
@@ -110,7 +111,7 @@ export default {
   },
   methods: {
     MakeToast(error) {
-      console.log(error);
+      // Creates a dynamic error Toast with the error message.
       this.$bvToast.toast(
         `There has been an error: ${error.response.data.message}`,
         {
@@ -124,6 +125,7 @@ export default {
     setResults(response) {
       this.weather = response;
     },
+    // Creates another weather entry into our history variable. It also sets the new weather history in our local storage value
     setItems(response) {
       this.items.push({
         isActive: false,
@@ -163,6 +165,7 @@ export default {
       return `${month} ${date} ${day} ${year}`;
     },
     async fetchWeather(e) {
+      // Fetch our weather data
       if (e.key == "Enter") {
         await axios
           .get(
@@ -186,8 +189,9 @@ export default {
       this.$refs["confirm-modal"].hide();
     },
     downloadExcel() {
+      // Encodes CSV for history download.
       let headers = ["date", "location", "temp", "weather"];
-      const seperator = ",";
+      const seperator = ";";
 
       const csv = [
         headers.join(seperator),
@@ -198,6 +202,8 @@ export default {
 
       let csvContent = "data:text/csv;charset=utf-8," + csv.join("\n");
       var encodedUri = encodeURI(csvContent);
+
+      // Doesn't work on chrome due to adblock popup settings. For demonstration use in firefox.
       window.open(encodedUri);
     },
   },

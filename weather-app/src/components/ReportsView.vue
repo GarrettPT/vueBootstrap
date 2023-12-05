@@ -112,15 +112,18 @@ export default {
     weatherData() {
       if (localStorage.weatherHistory !== undefined) {
         const weatherArray = JSON.parse(localStorage.weatherHistory);
+        // We get all of the unique weather values to act as our keys
         const uniqueKeys = [
           ...new Set(weatherArray.map((item) => item.weather)),
         ];
         let dataSet = [];
 
+        // For each of our keys, find the number of matching values.
         uniqueKeys.forEach((key) =>
           dataSet.push(weatherArray.filter((obj) => obj.weather === key).length)
         );
 
+        // Set our labels and datasets to be used by our charts
         let returnData = { labels: uniqueKeys, datasets: [{ data: dataSet }] };
 
         return returnData;
@@ -131,13 +134,16 @@ export default {
     cityData() {
       if (this.weatherHistory !== undefined) {
         const cityArray = this.weatherHistory;
+        // We get all of the unique location values to act as our keys
         const uniqueKeys = [...new Set(cityArray.map((item) => item.location))];
         let dataSet = [];
 
+        // For each of our keys, find the number of matching values.
         uniqueKeys.forEach((key) =>
           dataSet.push(cityArray.filter((obj) => obj.location === key).length)
         );
 
+        // Set our labels and datasets to be used by our charts
         let returnData = { labels: uniqueKeys, datasets: [{ data: dataSet }] };
 
         return returnData;
